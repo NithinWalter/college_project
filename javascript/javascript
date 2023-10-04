@@ -1,4 +1,4 @@
-// JavaScript code for your website
+// JavaScript code for website
 
 // Search form functionality
 const searchIcon = document.getElementById('search-icon');
