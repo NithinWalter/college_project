@@ -1,37 +1,89 @@
-// JavaScript code for website
+let menu = document.querySelector('#menu-bars');
+let navbar = document.querySelector('.navbar');
 
-// Search form functionality
-const searchIcon = document.getElementById('search-icon');
-const searchForm = document.getElementById('search-form');
-const searchBox = document.getElementById('search-box');
-const closeSearch = document.getElementById('close');
+menu.onclick = () =>{
+  menu.classList.toggle('fa-times');
+  navbar.classList.toggle('active');
+}
 
-searchIcon.addEventListener('click', () => {
-    searchForm.style.display = 'block';
-    searchBox.focus();
+let section = document.querySelectorAll('section');
+let navLinks = document.querySelectorAll('header .navbar a');
+
+window.onscroll = () =>{
+
+  menu.classList.remove('fa-times');
+  navbar.classList.remove('active');
+
+  section.forEach(sec =>{
+
+    let top = window.scrollY;
+    let height = sec.offsetHeight;
+    let offset = sec.offsetTop - 150;
+    let id = sec.getAttribute('id');
+
+    if(top >= offset && top < offset + height){
+      navLinks.forEach(links =>{
+        links.classList.remove('active');
+        document.querySelector('header .navbar a[href*='+id+']').classList.add('active');
+      });
+    };
+
+  });
+
+}
+
+document.querySelector('#search-icon').onclick = () =>{
+  document.querySelector('#search-form').classList.toggle('active');
+}
+
+document.querySelector('#close').onclick = () =>{
+  document.querySelector('#search-form').classList.remove('active');
+}
+
+var swiper = new Swiper(".home-slider", {
+  spaceBetween: 30,
+  centeredSlides: true,
+  autoplay: {
+    delay: 7500,
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  loop:true,
 });
 
-closeSearch.addEventListener('click', () => {
-    searchForm.style.display = 'none';
-    searchBox.value = '';
+var swiper = new Swiper(".review-slider", {
+  spaceBetween: 20,
+  centeredSlides: true,
+  autoplay: {
+    delay: 7500,
+    disableOnInteraction: false,
+  },
+  loop:true,
+  breakpoints: {
+    0: {
+        slidesPerView: 1,
+    },
+    640: {
+      slidesPerView: 2,
+    },
+    768: {
+      slidesPerView: 2,
+    },
+    1024: {
+      slidesPerView: 3,
+    },
+  },
 });
 
-// Random Artwork feature
-const randomArtworkButton = document.getElementById('random-artwork-button');
-const artworkImages = document.querySelectorAll('.artwork-image');
-const artworkDescriptions = document.querySelectorAll('.artwork-description');
+function loader(){
+  document.querySelector('.loader-container').classList.add('fade-out');
+}
 
-randomArtworkButton.addEventListener('click', () => {
-    // Hide all artwork descriptions
-    artworkDescriptions.forEach(description => {
-        description.style.display = 'none';
-    });
+function fadeOut(){
+  setInterval(loader, 3000);
+}
 
-    // Generate a random index to display a random artwork
-    const randomIndex = Math.floor(Math.random() * artworkImages.length);
-
-    // Show the randomly selected artwork and its description
-    artworkImages[randomIndex].style.display = 'block';
-    artworkDescriptions[randomIndex].style.display = 'block';
-});
-
+window.onload = fadeOut;
